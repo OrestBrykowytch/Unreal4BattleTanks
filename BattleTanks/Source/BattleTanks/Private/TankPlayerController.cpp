@@ -1,7 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
+#include "BattleTanks.h"
 #include "TankPlayerController.h"
+
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	AimTowardsCrosshair();
+	UE_LOG(LogTemp, Warning, TEXT("PlayerController ticking"));
+}
 
 void ATankPlayerController::BeginPlay()
 {
@@ -23,4 +28,18 @@ void ATankPlayerController::BeginPlay()
 ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
+}
+
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	if (!GetControlledTank())
+	{
+		return;
+	}
+	else
+	{
+		// Get World Location through linetrace of crosshair
+			// If hits landscape
+				// Aim at point
+	}
 }
