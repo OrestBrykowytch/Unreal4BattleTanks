@@ -26,6 +26,7 @@ private:
 	ATank* GetControlledTank() const;
 	void AimTowardsCrosshair();
 	bool getSightRayHitLocation(FVector& outHitLocation) const; // Return out parameter, true if terrain is hit
+	bool getLookDirection(FVector2D screenLocation, FVector& lookDirection) const;
 
 public:
 	virtual void BeginPlay() override;
