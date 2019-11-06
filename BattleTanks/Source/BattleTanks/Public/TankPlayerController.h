@@ -13,13 +13,21 @@ class BATTLETANKS_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
+private:
+	// Variables
+	UPROPERTY(EditAnywhere)
+	float crosshairXLocation = 0.5;
+	
+	UPROPERTY(EditAnywhere)
+	float crosshairYLocation = 0.33333;
+
+
+	// Functions
 	ATank* GetControlledTank() const;
+	void AimTowardsCrosshair();
+	bool getSightRayHitLocation(FVector& outHitLocation) const; // Return out parameter, true if terrain is hit
+
+public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	void AimTowardsCrosshair();
-
-
-	// Return out parameter, true if terrain is hit
-	bool getSightRayHitLocation(FVector& outHitLocation) const;
 };
