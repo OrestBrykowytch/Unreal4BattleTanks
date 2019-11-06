@@ -18,4 +18,8 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	void AimTowardsCrosshair();
+
+
+	// Return out parameter, true if terrain is hit
+	bool getSightRayHitLocation(FVector& outHitLocation) const;
 };
