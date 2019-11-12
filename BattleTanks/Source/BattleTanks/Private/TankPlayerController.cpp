@@ -1,11 +1,10 @@
-#include "BattleTanks.h"
 #include "TankPlayerController.h"
+#include "BattleTanks.h"
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController ticking"));
 }
 
 void ATankPlayerController::BeginPlay()
@@ -21,8 +20,6 @@ void ATankPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing: %s"), *(controlledTank->GetName()));
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController BeginPlay"));
 }
 
 ATank* ATankPlayerController::GetControlledTank() const
@@ -40,7 +37,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector hitLocation; // Out paramter
 	if (getSightRayHitLocation(hitLocation)) // Ray trace "side-effect"
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *hitLocation.ToString());
+		GetControlledTank()->aimAt(hitLocation);
 	}
 }
 
@@ -85,3 +82,4 @@ bool ATankPlayerController::getLookDirection(FVector2D screenLocation, FVector& 
 
 	return DeprojectScreenPositionToWorld(screenLocation.X, screenLocation.Y, cameraWorldLocation, lookDirection);
 }
+
