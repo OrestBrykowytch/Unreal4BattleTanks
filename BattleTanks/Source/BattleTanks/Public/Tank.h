@@ -28,6 +28,9 @@ public:
 	// Aim at the hit location
 	void aimAt(FVector hitLocation);
 
+	// Barrel reference setter
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void setBarrelReference(UStaticMeshComponent* barrelToSet);
 
 protected:
 	// Aiming component

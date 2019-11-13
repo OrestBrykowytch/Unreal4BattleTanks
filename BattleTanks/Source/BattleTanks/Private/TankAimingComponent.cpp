@@ -1,4 +1,5 @@
 #include "BattleTanks.h"
+#include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "TankAimingComponent.h"
 
 
@@ -32,5 +33,17 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::aimAt(FVector hitLocation)
 {
 	auto ourTankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at: %s"), *ourTankName, *hitLocation.ToString());
+	FString barrelLocation = "";
+
+	if (barrel)
+	{
+		barrelLocation = barrel->GetComponentLocation().ToString();
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s"), *ourTankName, *hitLocation.ToString(), *barrelLocation);
+}
+
+void UTankAimingComponent::setBarrelReference(UStaticMeshComponent* barrelToSet)
+{
+	barrel = barrelToSet;
 }
