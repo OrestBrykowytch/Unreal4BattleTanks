@@ -1,5 +1,6 @@
 #include "BattleTanks.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "TankAimingComponent.h"
 
 
@@ -39,8 +40,24 @@ void UTankAimingComponent::aimAt(FVector hitLocation, float launchSpeed)
 	{
 		barrelLocation = barrel->GetComponentLocation().ToString();
 	}
+	else
+	{
+		return;
+	}
 
-	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s with potential Muzzle Velocity: %f"), *ourTankName, *hitLocation.ToString(), *barrelLocation, launchSpeed);
+	FVector outLaunchVelocity, startLocation = barrel->GetSocketLocation(FName("Projectile"));
+
+	if (UGameplayStatics::SuggestProjectileVelocity(this, outLaunchVelocity, startLocation, hitLocation, launchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace)) // Calculate the outLaunchVelocity
+	{
+		auto aimDirection = outLaunchVelocity.GetSafeNormal();
+
+		UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s"), *ourTankName, *aimDirection.ToString(), *barrelLocation);
+	}
+	else
+	{
+		// No solution
+	}
+
 }
 
 void UTankAimingComponent::setBarrelReference(UStaticMeshComponent* barrelToSet)
