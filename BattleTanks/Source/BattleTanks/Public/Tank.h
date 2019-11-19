@@ -11,6 +11,10 @@ class BATTLETANKS_API ATank : public APawn
 	GENERATED_BODY()
 
 private:
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float launchSpeed = 100000; // Currently 1km/s, need to find a proper default
+
+
 	// Sets default values for this pawn's properties
 	ATank();
 
