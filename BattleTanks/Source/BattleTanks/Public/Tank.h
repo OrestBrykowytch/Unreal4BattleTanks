@@ -34,7 +34,7 @@ public:
 
 	// Barrel reference setter
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void setBarrelReference(UStaticMeshComponent* barrelToSet);
+	void setBarrelReference(UTankBarrel* barrelToSet);
 
 protected:
 	// Aiming component

@@ -1,6 +1,7 @@
 #include "BattleTanks.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "TankBarrel.h"
 #include "TankAimingComponent.h"
 
 
@@ -45,7 +46,7 @@ void UTankAimingComponent::aimAt(FVector hitLocation, float launchSpeed)
 	}
 }
 
-void UTankAimingComponent::setBarrelReference(UStaticMeshComponent* barrelToSet)
+void UTankAimingComponent::setBarrelReference(UTankBarrel* barrelToSet)
 {
 	barrel = barrelToSet;
 }
@@ -57,5 +58,5 @@ void UTankAimingComponent::moveBarrelTowards(FVector aimDirection)
 
 	UE_LOG(LogTemp, Warning, TEXT("aimAsRotator: %s"), *deltaRotation.ToString())
 
-	// Move barrel towards aimDirection using max rotation/elevation speed and frametime
+	barrel->elevateBarrel(5); // Remove magic number
 }
