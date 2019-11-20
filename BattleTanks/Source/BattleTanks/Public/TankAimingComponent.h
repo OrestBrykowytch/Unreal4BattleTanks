@@ -17,15 +17,16 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	// Aim location finder function
 	void aimAt(FVector hitLocation, float launchSpeed);
+
+	// Turret and Barrel rotator and elevator
+	void moveBarrelTowards(FVector aimDirection);
 
 	// Setter for barrel reference
 	void setBarrelReference(UStaticMeshComponent* barrelToSet);
 
+	// TODO add setTurretReference
+
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 };

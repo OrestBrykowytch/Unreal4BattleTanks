@@ -14,23 +14,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
 void UTankAimingComponent::aimAt(FVector hitLocation, float launchSpeed)
 {
 	auto ourTankName = GetOwner()->GetName();
@@ -46,21 +29,33 @@ void UTankAimingComponent::aimAt(FVector hitLocation, float launchSpeed)
 	}
 
 	FVector outLaunchVelocity, startLocation = barrel->GetSocketLocation(FName("Projectile"));
+	bool aimingSolution = UGameplayStatics::SuggestProjectileVelocity(this, outLaunchVelocity, startLocation, hitLocation, launchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace); // Calculate the outLaunchVelocity
 
-	if (UGameplayStatics::SuggestProjectileVelocity(this, outLaunchVelocity, startLocation, hitLocation, launchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace)) // Calculate the outLaunchVelocity
+	if (aimingSolution)
 	{
 		auto aimDirection = outLaunchVelocity.GetSafeNormal();
 
-		UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s"), *ourTankName, *aimDirection.ToString(), *barrelLocation);
+		// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s"), *ourTankName, *aimDirection.ToString(), *barrelLocation);
+
+		// Move barrel and rotate turret
+		moveBarrelTowards(aimDirection);
 	}
 	else
 	{
-		// No solution
 	}
-
 }
 
 void UTankAimingComponent::setBarrelReference(UStaticMeshComponent* barrelToSet)
 {
 	barrel = barrelToSet;
+}
+
+void UTankAimingComponent::moveBarrelTowards(FVector aimDirection)
+{
+	// Work out difference between current barrel direction and aimDirection
+	auto barrelRotation = barrel->GetForwardVector().Rotation(), aimAsRotator = aimDirection.Rotation(), deltaRotation = aimAsRotator - barrelRotation;
+
+	UE_LOG(LogTemp, Warning, TEXT("aimAsRotator: %s"), *deltaRotation.ToString())
+
+	// Move barrel towards aimDirection using max rotation/elevation speed and frametime
 }
